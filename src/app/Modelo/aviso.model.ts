@@ -3,20 +3,20 @@ export class Aviso {
     titulo: string;
     descripcion: string;
     fecha: string;
-    fotoUrl?: string;
+    foto?: string;
   
     constructor(
       id: number,
       titulo: string,
       descripcion: string,
       fecha: string = new Date().toISOString(),
-      fotoUrl?: string
+      foto?: string
     ) {
       this.id = id;
       this.titulo = titulo;
       this.descripcion = descripcion;
       this.fecha = fecha;
-      this.fotoUrl = fotoUrl;
+      this.foto = foto;
     }
   }
   
