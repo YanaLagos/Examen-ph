@@ -4,7 +4,7 @@ import { Aviso } from '../Modelo/aviso.model';
 @Injectable({
   providedIn: 'root',
 })
-export class ServicioAviso {
+export class AvisoServicioService {
   private avisos: Aviso[] = [];
 
   constructor() {}

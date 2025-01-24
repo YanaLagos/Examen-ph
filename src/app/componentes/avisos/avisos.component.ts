@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ServicioAviso } from '../../servicio-aviso/servicio-aviso.component';
+import { AvisoServicioService } from 'src/app/servicios/aviso-servicio.service';
 import { Aviso } from '../../Modelo/aviso.model';
 import { AlertController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
@@ -18,7 +18,7 @@ export class AvisosComponent implements OnInit {
   avisos: Aviso[] = []; 
 
   constructor(
-    private servicioAviso: ServicioAviso,
+    private AvisoServicioService: AvisoServicioService,
     private alertController: AlertController
   ) {
     addIcons({trashOutline});
@@ -29,7 +29,7 @@ export class AvisosComponent implements OnInit {
   }
 
   cargarAvisos() {
-    this.servicioAviso.obtenerAvisos().then(avisos => {
+    this.AvisoServicioService.obtenerAvisos().then(avisos => {
       this.avisos = avisos;
     });
   }
@@ -46,7 +46,7 @@ export class AvisosComponent implements OnInit {
         {
           text: 'Eliminar',
           handler: () => {
-            this.servicioAviso.eliminarAviso(id).then(() => {
+            this.AvisoServicioService.eliminarAviso(id).then(() => {
               this.cargarAvisos(); 
             });
           },
