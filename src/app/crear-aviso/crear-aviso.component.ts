@@ -1,14 +1,15 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { Aviso } from '../Modelo/aviso.model';
 import { FormsModule } from '@angular/forms'; 
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonLabel, IonItem, IonInput, IonTextarea, IonButton, IonImg } from "@ionic/angular/standalone";
+import { Camera, CameraResultType } from '@capacitor/camera'
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonLabel, IonItem, IonInput, IonTextarea, IonButton, IonImg, IonButtons, IonBackButton, IonNote, IonIcon } from "@ionic/angular/standalone";
 
 @Component({
   selector: 'app-crear-aviso',
   templateUrl: './crear-aviso.component.html',
   styleUrls: ['./crear-aviso.component.scss'],
   standalone: true, 
-  imports: [FormsModule, IonImg, IonButton, IonTextarea, IonInput, IonHeader, IonToolbar, IonTitle, IonContent, IonLabel, IonItem],
+  imports: [IonIcon, IonNote, IonBackButton, IonButtons, FormsModule, IonImg, IonButton, IonTextarea, IonInput, IonHeader, IonToolbar, IonTitle, IonContent, IonLabel, IonItem],
 })
 export class CrearAvisoComponent {
   titulo: string = '';
@@ -18,6 +19,16 @@ export class CrearAvisoComponent {
   @Output() avisoCreado = new EventEmitter();  
 
   constructor() {}
+
+	async tomarFoto() {
+    const image = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: false,
+      resultType: CameraResultType.Base64
+    })
+ 
+    const imagenBase64 = image.base64String
+  }
 
   onSubmit() {
     if (this.titulo && this.descripcion) {

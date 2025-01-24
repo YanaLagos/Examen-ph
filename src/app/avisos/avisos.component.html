@@ -1,8 +1,15 @@
 <ion-list>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button size="small" defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Publicaciones
+    </ion-title>
+  </ion-toolbar>
   <ion-item *ngFor="let aviso of avisos">
     <ion-label>
       <h2>{{ aviso.titulo }}</h2>
-      <p>{{ aviso.descripcion }}</p>
       <p><small>{{ aviso.fecha | date }}</small></p>
     </ion-label>
     <ion-button color="danger" (click)="eliminarAviso(aviso.id)">Eliminar</ion-button>

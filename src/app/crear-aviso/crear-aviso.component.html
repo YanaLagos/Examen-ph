@@ -1,33 +1,47 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Crear Aviso</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-toolbar>
+  <ion-buttons slot="start">
+    <ion-back-button size="small" defaultHref="/home"></ion-back-button>
+  </ion-buttons>
+  <ion-title>
+    Crear publicación
+  </ion-title>
+</ion-toolbar>
 
 <ion-content>
   <form (ngSubmit)="onSubmit()">
     <ion-item>
       <ion-label position="floating">Título</ion-label>
-      <ion-input [(ngModel)]="titulo" name="titulo" required minlength="5"></ion-input>
+      <ion-input type="text" [(ngModel)]="titulo" name="titulo" required minlength="5"></ion-input>
     </ion-item>
+    <ion-note *ngIf="!titulo" color="danger">
+      El título es obligatorio y debe tener al menos 5 caracteres.
+    </ion-note>
 
     <ion-item>
       <ion-label position="floating">Descripción</ion-label>
       <ion-textarea [(ngModel)]="descripcion" name="descripcion" required minlength="20"></ion-textarea>
     </ion-item>
+    <ion-note *ngIf="!descripcion" color="danger">
+      La descripción es obligatoria y debe tener al menos 20 caracteres.
+    </ion-note>
 
     <ion-item>
-      <ion-button expand="full" (click)="tomarFoto()">Tomar Foto</ion-button>
+      <ion-label>Añadir fotografía</ion-label>
+      <ion-button (click)="tomarFoto()" fill="outline">
+        <ion-icon slot="start" name="camera"></ion-icon>
+        Tomar foto
+      </ion-button>
     </ion-item>
+    <ion-note *ngIf="!foto" color="danger">
+      La foto es obligatoria.
+    </ion-note>
 
     <ion-item *ngIf="foto">
-      <ion-img [src]="foto" alt="Foto tomada"></ion-img>
+      <ion-img [src]="foto"></ion-img>
     </ion-item>
 
     <ion-item>
-      <ion-button type="submit" expand="full" [disabled]="!titulo || !descripcion || titulo.length < 5 || descripcion.length < 20">
-        Crear Aviso
-      </ion-button>
+      <ion-button expand="full" type="submit" [disabled]="!titulo || !descripcion || !foto">Crear Publicación</ion-button>
     </ion-item>
   </form>
 </ion-content>

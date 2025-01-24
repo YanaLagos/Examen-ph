@@ -3,14 +3,14 @@ import { ServicioAviso } from '../servicio-aviso/servicio-aviso.component';
 import { Aviso } from '../Modelo/aviso.model';
 import { AlertController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
-import { IonList, IonLabel, IonItem, IonButton } from "@ionic/angular/standalone";
+import { IonList, IonLabel, IonItem, IonButton, IonTitle, IonBackButton, IonToolbar, IonButtons } from "@ionic/angular/standalone";
 
 @Component({
   selector: 'app-avisos',
   templateUrl: './avisos.component.html',
   styleUrls: ['./avisos.component.scss'],
   standalone: true,
-  imports: [CommonModule, IonList, IonLabel, IonItem, IonButton]
+  imports: [IonButtons, IonToolbar, IonBackButton, IonTitle, CommonModule, IonList, IonLabel, IonItem, IonButton]
 })
 export class AvisosComponent implements OnInit {
   avisos: Aviso[] = []; 
