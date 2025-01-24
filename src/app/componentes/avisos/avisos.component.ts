@@ -5,17 +5,22 @@ import { AlertController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { addIcons } from 'ionicons';
 import { trashOutline } from 'ionicons/icons'
-import { IonList, IonLabel, IonItem, IonButton, IonTitle, IonBackButton, IonToolbar, IonButtons, IonContent, IonHeader, IonIcon, IonImg } from "@ionic/angular/standalone";
+import { IonList, IonLabel, IonItem, IonButton, IonTitle, IonBackButton, IonToolbar, IonButtons, 
+  IonContent, IonHeader, IonIcon, IonImg, IonModal, IonFooter } from "@ionic/angular/standalone";
 
 @Component({
   selector: 'app-avisos',
   templateUrl: './avisos.component.html',
   styleUrls: ['./avisos.component.scss'],
   standalone: true,
-  imports: [IonImg, IonIcon, IonHeader, IonContent, IonButtons, IonToolbar, IonBackButton, IonTitle, CommonModule, IonList, IonLabel, IonItem, IonButton]
+  imports: [IonFooter, IonModal, IonImg, IonIcon, IonHeader, IonContent, IonButtons, IonToolbar, IonBackButton, 
+    IonTitle, CommonModule, IonList, IonLabel, IonItem, IonButton]
 })
 export class AvisosComponent implements OnInit {
+
   avisos: Aviso[] = []; 
+  modalAbierto: boolean = false;
+  avisoAEliminar: Aviso | null = null; 
 
   constructor(
     private AvisoServicioService: AvisoServicioService,
@@ -35,25 +40,21 @@ export class AvisosComponent implements OnInit {
   }
 
   async eliminarAviso(id: number) {
-    const alert = await this.alertController.create({
-      header: 'Eliminar Aviso',
-      message: '¿Estás seguro de que deseas eliminar este aviso?',
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-        },
-        {
-          text: 'Eliminar',
-          handler: () => {
-            this.AvisoServicioService.eliminarAviso(id).then(() => {
-              this.cargarAvisos(); 
-            });
-          },
-        },
-      ],
-    });
+    this.avisoAEliminar = this.avisos.find(aviso => aviso.id === id) || null;
+    this.modalAbierto = true;
+  }
 
-    await alert.present();
+  cancelar() {
+    this.modalAbierto = false;  // Cierra el modal luego de cancelar
+  }
+
+  async confirmar() {
+    if (this.avisoAEliminar) {
+      await this.AvisoServicioService.eliminarAviso(this.avisoAEliminar.id);
+      this.cargarAvisos();
+    }
+    // Cierra el modal luego de confirmar
+    this.modalAbierto = false;
+    this.avisoAEliminar = null; 
   }
 }

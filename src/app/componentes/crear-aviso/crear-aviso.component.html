@@ -37,7 +37,7 @@
     </ion-note>
 
     <ion-item *ngIf="foto">
-      <ion-img [src]="foto"></ion-img>
+      <ion-img [src]="'data:image/jpeg;base64,'+foto"></ion-img>
     </ion-item>
 
     <ion-item>

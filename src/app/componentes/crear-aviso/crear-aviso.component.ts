@@ -23,7 +23,7 @@ export class CrearAvisoComponent {
   @Output() avisoCreado = new EventEmitter();  
 
   constructor() {
-    addIcons({camera})
+    addIcons({camera});
   }
 
 	async tomarFoto() {
@@ -39,7 +39,7 @@ export class CrearAvisoComponent {
   onSubmit() {
     if (this.titulo && this.descripcion) {
       const nuevoAviso: Aviso = {
-        id: 0, // El id se asignará dinámicamente
+        id: 0, // Asignación dinámica de ID
         titulo: this.titulo,
         descripcion: this.descripcion,
         fecha: new Date().toISOString() // Fecha actual
