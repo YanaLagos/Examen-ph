@@ -18,7 +18,7 @@ export class HomePage {
   }
 
   irACrearAviso() {
-    this.router.navigate(['/crear-aviso']);
+    this.router.navigate(['/crear']);
   }
 }
 

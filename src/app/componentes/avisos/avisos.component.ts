@@ -4,16 +4,17 @@ import { Aviso } from '../../Modelo/aviso.model';
 import { AlertController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { addIcons } from 'ionicons';
-import { trashOutline } from 'ionicons/icons'
+import { RouterModule, Router } from '@angular/router';
+import { trashOutline, add } from 'ionicons/icons'
 import { IonList, IonLabel, IonItem, IonButton, IonTitle, IonBackButton, IonToolbar, IonButtons, 
-  IonContent, IonHeader, IonIcon, IonImg, IonModal, IonFooter } from "@ionic/angular/standalone";
+  IonContent, IonHeader, IonIcon, IonImg, IonModal, IonFooter, IonFab, IonFabButton } from "@ionic/angular/standalone";
 
 @Component({
   selector: 'app-avisos',
   templateUrl: './avisos.component.html',
   styleUrls: ['./avisos.component.scss'],
   standalone: true,
-  imports: [IonFooter, IonModal, IonImg, IonIcon, IonHeader, IonContent, IonButtons, IonToolbar, IonBackButton, 
+  imports: [RouterModule, IonFabButton, IonFab, IonFooter, IonModal, IonImg, IonIcon, IonHeader, IonContent, IonButtons, IonToolbar, IonBackButton, 
     IonTitle, CommonModule, IonList, IonLabel, IonItem, IonButton]
 })
 export class AvisosComponent implements OnInit {
@@ -24,9 +25,10 @@ export class AvisosComponent implements OnInit {
 
   constructor(
     private AvisoServicioService: AvisoServicioService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private router: Router
   ) {
-    addIcons({trashOutline});
+    addIcons({trashOutline,add});
   }
 
   async ngOnInit() {
@@ -58,4 +60,8 @@ export class AvisosComponent implements OnInit {
     this.modalAbierto = false;
     this.avisoAEliminar = null; 
   }
+
+  async irACrearAviso() {
+    this.router.navigate(['/crear']);
+    }
 }
