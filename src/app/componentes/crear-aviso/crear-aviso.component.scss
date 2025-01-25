@@ -28,19 +28,19 @@ ion-content {
   }
   
   ion-button {
-    --background: #cf034b;
-    --color: white;
-    --border-radius: 8px;
-    --padding-start: 16px;
-    --padding-end: 16px;
     max-width: 300px;
     width: auto;
-    align-self: center;
+    align-items: center;
+    --background: #762e91;
+    --color: white;
+    --border-radius: 4px; 
+    --padding-start: 16px;
+    --padding-end: 16px;
     transition: background-color 0.3s ease;
   }
   
   ion-button:hover {
-    --background: #b0233c;
+    --background: #4b1c6e;
   }
   
   ion-note {
