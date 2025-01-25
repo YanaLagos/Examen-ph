@@ -5,14 +5,14 @@ import { addIcons } from 'ionicons';
 import { camera } from 'ionicons/icons';
 import { Camera, CameraResultType } from '@capacitor/camera'
 import { IonToolbar, IonTitle, IonContent, IonLabel, IonItem, IonInput, IonTextarea, IonButton, IonImg, 
-  IonButtons, IonBackButton, IonNote, IonIcon } from "@ionic/angular/standalone";
+  IonButtons, IonBackButton, IonNote, IonIcon, IonHeader } from "@ionic/angular/standalone";
 
 @Component({
   selector: 'app-crear-aviso',
   templateUrl: './crear-aviso.component.html',
   styleUrls: ['./crear-aviso.component.scss'],
   standalone: true, 
-  imports: [IonIcon, IonNote, IonBackButton, IonButtons, FormsModule, IonImg, IonButton, IonTextarea, 
+  imports: [IonHeader, IonIcon, IonNote, IonBackButton, IonButtons, FormsModule, IonImg, IonButton, IonTextarea, 
     IonInput, IonToolbar, IonTitle, IonContent, IonLabel, IonItem],
 })
 export class CrearAvisoComponent {
@@ -33,7 +33,8 @@ export class CrearAvisoComponent {
       resultType: CameraResultType.Base64
     })
  
-    const imagenBase64 = image.base64String
+    this.foto = image.base64String || '';
+    console.log('Imagen seleccionada: ', this.foto);
   }
 
   onSubmit() {
@@ -42,10 +43,11 @@ export class CrearAvisoComponent {
         id: 0, // Asignación dinámica de ID
         titulo: this.titulo,
         descripcion: this.descripcion,
-        fecha: new Date().toISOString() // Fecha actual
+        fecha: new Date().toISOString(), // Fecha actual
+        foto: this.foto
       };
 
-      this.avisoCreado.emit();
+      this.avisoCreado.emit(nuevoAviso);
       this.titulo = '';
       this.descripcion = '';
       this.foto = '';

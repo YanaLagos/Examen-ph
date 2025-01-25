@@ -1,11 +1,11 @@
-<ion-toolbar>
-  <ion-buttons slot="start">
-    <ion-back-button size="small" defaultHref="/home"></ion-back-button>
-  </ion-buttons>
-  <ion-title>
-    Crear publicación
-  </ion-title>
-</ion-toolbar>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button size="small" defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Crear publicación</ion-title>
+  </ion-toolbar>
+</ion-header>
 
 <ion-content>
   <form (ngSubmit)="onSubmit()">
@@ -27,7 +27,7 @@
 
     <ion-item>
       <ion-label>Añadir fotografía</ion-label>
-      <ion-button (click)="tomarFoto()" fill="outline">
+      <ion-button class= "boton-foto" (click)="tomarFoto()" fill="outline">
         <ion-icon slot="start" name="camera"></ion-icon>
         Tomar foto
       </ion-button>
@@ -41,8 +41,9 @@
     </ion-item>
 
     <ion-item>
-      <ion-button expand="full" type="submit" [disabled]="!titulo || !descripcion || !foto">Crear Publicación</ion-button>
+      <ion-button class="boton-crear-publicacion"  expand="full" type="submit" [disabled]="!titulo || !descripcion || !foto">
+        Crear Publicación
+      </ion-button>
     </ion-item>
   </form>
 </ion-content>
-

@@ -14,7 +14,7 @@
     <!-- Lista de avisos -->
     <ion-item *ngFor="let aviso of avisos">
       <ion-label>
-        <p>{{ aviso.fecha | date }}</p>
+        <p>{{ aviso.fecha | date: 'yyyy/MM/dd' }}</p>
         <h2>{{ aviso.titulo }}</h2>
       </ion-label>
       <ion-button fill="clear" (click)="eliminarAviso(aviso.id)">
@@ -28,7 +28,7 @@
     <ng-template>
       <ion-header>
         <ion-toolbar>
-          <ion-title>¿Eliminar la publicación?</ion-title>
+          <ion-title>¿Desea eliminar la publicación?</ion-title>
         </ion-toolbar>
       </ion-header>
       <ion-footer>
