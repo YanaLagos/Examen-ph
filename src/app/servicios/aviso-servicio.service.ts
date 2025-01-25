@@ -29,21 +29,38 @@ export class AvisoServicioService {
 
   constructor() {}
 
-  async iniciarPlugin() {    
-    this.plataforma = Capacitor.getPlatform();
-    if (this.plataforma == "web") {
-      await this._iniciarPluginWeb();
+  private async _iniciarPluginWeb(): Promise<void> {    
+    await customElements.whenDefined('jeep-sqlite')
+    const jeepSqliteEl = document.querySelector("jeep-sqlite")
+    if( jeepSqliteEl != null ) {      
+      await this.sqlite.initWebStore()            
     }
-    await this.abrirConexion();
-    await this.db.execute(this.DB_SQL_TABLAS);           
-    await this.insertarEjemplos();
+  }
+  async iniciarPlugin() {    
+    this.plataforma = Capacitor.getPlatform()
+    if(this.plataforma == "web") {
+      await this._iniciarPluginWeb()
+    }
+    await this.abrirConexion()
+    await this.db.execute(this.DB_SQL_TABLAS)  
+
+    await this.agregarAviso(
+      "Se regalan gatitos", 
+      "Regalo tres gatitos de tres meses. Consultar al +569XXXXXXXX.", 
+      ""
+    );
+    await this.agregarAviso(
+      "Se vende Switch con juegos", 
+      "Vendo Switch con tres años de uso y dos controles. Estoy juntando plata para comprarme la Play5.", 
+      ""
+    );         
   }
 
   async abrirConexion() {                    
-    const ret = await this.sqlite.checkConnectionsConsistency();
-    const isConn = (await this.sqlite.isConnection(this.DB_NAME, this.DB_READ_ONLY)).result;
-    if (ret.result && isConn) {
-      this.db = await this.sqlite.retrieveConnection(this.DB_NAME, this.DB_READ_ONLY);      
+    const ret = await this.sqlite.checkConnectionsConsistency() 
+    const isConn = (await this.sqlite.isConnection(this.DB_NAME, this.DB_READ_ONLY)).result
+    if(ret.result && isConn) {
+      this.db = await this.sqlite.retrieveConnection(this.DB_NAME, this.DB_READ_ONLY)      
     } else {
       this.db = await this.sqlite.createConnection(
         this.DB_NAME,
@@ -51,55 +68,32 @@ export class AvisoServicioService {
         this.DB_MODE,
         this.DB_VERSION,
         this.DB_READ_ONLY
-      );
+      )
     }
-    await this.db.open();
-  }
-
-  async insertarEjemplos() {
-    // Verificamos si ya existen registros
-    const resultado = await this.db.query('SELECT COUNT(*) AS count FROM avisos');
-    if (resultado?.values?.[0]?.count === 0) {
-      // Si no hay registros, insertamos los ejemplos
-      const query = 'INSERT INTO avisos (titulo, descripcion, foto, fecha) VALUES (?, ?, ?, ?)';
-
-      // Aviso 1
-      await this.db.run(query, [
-        'Se regalan gatitos',
-        'Regalo tres gatitos de tres meses. Consultar al +569XXXXXXXX.',
-        'https://via.placeholder.com/150',
-        new Date().toISOString(),
-      ]);
-
-      // Aviso 2
-      await this.db.run(query, [
-        'Se vende Switch con juegos',
-        'Vendo Switch con tres años de uso y dos controles. Estoy juntando plata para comprarme la Play5.',
-        'https://via.placeholder.com/150',
-        new Date().toISOString(),
-      ]);
-    }
+    await this.db.open()
   }
 
   async obtenerAvisos(): Promise<Aviso[]> {
     const resultado = await this.db.query('SELECT * FROM avisos ORDER BY fecha DESC');
-    return resultado?.values?.map((aviso: any) => new Aviso(
-      aviso.id, 
-      aviso.titulo, 
-      aviso.descripcion, 
-      aviso.fecha, 
-      aviso.foto 
-    )) || [];
+    return resultado?.values?.map((aviso: any) => ({
+      id: aviso.id,
+      titulo: aviso.titulo,
+      descripcion: aviso.descripcion,
+      fecha: aviso.fecha,
+      foto: aviso.foto,
+    })) || [];
   }
 
   async agregarAviso(titulo: string, descripcion: string, foto: string): Promise<void> {
-    const query = 'INSERT INTO avisos (titulo, descripcion, foto, fecha) VALUES (?, ?, ?, ?)';
-    await this.db.run(query, [
-      titulo,
-      descripcion,
-      foto,
-      new Date().toISOString(),
-    ]);
+    const fecha = new Date().toISOString();
+
+    // Insertar el aviso solo si no existe un aviso con el mismo título
+    await this.db.run(
+      `INSERT INTO avisos (titulo, descripcion, foto, fecha)
+       SELECT ?, ?, ?, ?
+       WHERE NOT EXISTS (SELECT 1 FROM avisos WHERE titulo = ?)`,
+      [titulo, descripcion, foto, fecha, titulo]
+    );
   }
 
   async eliminarAviso(id: number): Promise<void> {

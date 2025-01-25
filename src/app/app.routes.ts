@@ -5,6 +5,7 @@ import { CrearAvisoComponent } from './componentes/crear-aviso/crear-aviso.compo
 import { AvisosComponent } from './componentes/avisos/avisos.component';
 
 export const routes: Routes = [
+  { path: '', redirectTo: '/home', pathMatch: 'full' }, 
   { path: 'home', component: HomePage }, 
   { path: 'avisos', component: AvisosComponent }, 
   { path: 'crear', component: CrearAvisoComponent } 

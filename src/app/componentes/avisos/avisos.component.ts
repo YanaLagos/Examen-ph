@@ -29,12 +29,13 @@ export class AvisosComponent implements OnInit {
     addIcons({trashOutline});
   }
 
-  ngOnInit() {
-    this.cargarAvisos();
+  async ngOnInit() {
+    await this.AvisoServicioService.iniciarPlugin()
+    await this.cargarAvisos();
   }
 
-  cargarAvisos() {
-    this.AvisoServicioService.obtenerAvisos().then(avisos => {
+  async cargarAvisos() {
+    await this.AvisoServicioService.obtenerAvisos().then(avisos => {
       this.avisos = avisos;
     });
   }
@@ -44,7 +45,7 @@ export class AvisosComponent implements OnInit {
     this.modalAbierto = true;
   }
 
-  cancelar() {
+  async cancelar() {
     this.modalAbierto = false;  // Cierra el modal luego de cancelar
   }
 

@@ -1,4 +1,4 @@
-export class Aviso {
+/*export class Aviso {
     id: number;
     titulo: string;
     descripcion: string;
@@ -18,5 +18,13 @@ export class Aviso {
       this.fecha = fecha;
       this.foto = foto;
     }
+  }*/
+
+  export interface Aviso {
+    id: number;
+    titulo: string;
+    descripcion: string;
+    fecha: string;
+    foto?: string;
   }
   
