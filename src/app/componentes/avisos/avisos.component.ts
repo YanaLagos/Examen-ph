@@ -7,14 +7,14 @@ import { addIcons } from 'ionicons';
 import { RouterModule, Router } from '@angular/router';
 import { trashOutline, add } from 'ionicons/icons'
 import { IonList, IonLabel, IonItem, IonButton, IonTitle, IonBackButton, IonToolbar, IonButtons, 
-  IonContent, IonHeader, IonIcon, IonImg, IonModal, IonFooter, IonFab, IonFabButton } from "@ionic/angular/standalone";
+  IonContent, IonHeader, IonIcon, IonImg, IonModal, IonFooter, IonFab, IonFabButton, IonText } from "@ionic/angular/standalone";
 
 @Component({
   selector: 'app-avisos',
   templateUrl: './avisos.component.html',
   styleUrls: ['./avisos.component.scss'],
   standalone: true,
-  imports: [RouterModule, IonFabButton, IonFab, IonFooter, IonModal, IonImg, IonIcon, IonHeader, IonContent, IonButtons, IonToolbar, IonBackButton,
+  imports: [IonText, RouterModule, IonFabButton, IonFab, IonFooter, IonModal, IonImg, IonIcon, IonHeader, IonContent, IonButtons, IonToolbar, IonBackButton,
     IonTitle, CommonModule, IonList, IonLabel, IonItem, IonButton]
 })
 export class AvisosComponent implements OnInit {

@@ -43,4 +43,61 @@ ion-content {
   ion-fab-button:hover {
     --background: #4b1c6e;
   }
+
+  ion-icon{
+    font-size: 25px;
+  }
+  
+ ion-modal{
+    --width: 320px; /* Ancho del modal */
+    --height: 220px; /* Alto del modal */
+    --border-radius: 15px; /* Bordes redondeados */
+    --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra */
+  
+    ion-header {
+      --background: #773aa3; /* Color del encabezado */
+      --color: white; /* Color del texto */
+    }
+  
+    ion-content {
+      text-align: center;
+      margin: auto;
+      padding: 16px;
+      font-size: 16px;
+      color: #333;
+    }
+  
+    .modal-content p {
+      text-align: center;
+      margin: auto;
+      padding-top: 20px;
+      font-size: 16px;
+      font-weight: 500;
+    }
+  
+    ion-footer {
+      ion-toolbar {
+        --background: #f8f9fa; /* Fondo del footer */
+        display: flex;
+        justify-content: space-between; /* Botones a cada lado */
+      }
+  
+      ion-button {
+        max-width: 300px;
+        width: auto;
+        align-items: center;
+        --background: #762e91;
+        --color: white;
+        --border-radius: 4px; 
+        --padding-start: 16px;
+        --padding-end: 16px;
+        transition: background-color 0.3s ease;
+      }
+      
+      ion-button:hover {
+        --background: #4b1c6e;
+      }
+
+    }
+  }
   
