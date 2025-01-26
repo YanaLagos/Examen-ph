@@ -11,33 +11,42 @@
   <form (ngSubmit)="onSubmit()">
     <ion-item>
       <ion-label position="floating">Título</ion-label>
-      <ion-input type="text" [(ngModel)]="titulo" name="titulo" required minlength="5"></ion-input>
+      <ion-input 
+      type="text" 
+      [(ngModel)]="titulo" 
+      ame="titulo" 
+      required minlength="5">
+    </ion-input>
     </ion-item>
-    <ion-note *ngIf="!titulo" color="danger">
+    <ion-note *ngIf="formInvalid && (!titulo || titulo.length < 5)" color="danger">
       El título es obligatorio y debe tener al menos 5 caracteres.
     </ion-note>
 
     <ion-item>
       <ion-label position="floating">Descripción</ion-label>
-      <ion-textarea [(ngModel)]="descripcion" name="descripcion" required minlength="20"></ion-textarea>
+      <ion-textarea 
+      [(ngModel)]="descripcion" 
+      name="descripcion" 
+      required minlength="20">
+    </ion-textarea>
     </ion-item>
-    <ion-note *ngIf="!descripcion" color="danger">
+    <ion-note *ngIf="formInvalid && (!descripcion || descripcion.length < 20)" color="danger">
       La descripción es obligatoria y debe tener al menos 20 caracteres.
     </ion-note>
 
     <ion-item>
       <ion-label>Añadir fotografía</ion-label>
-      <ion-button class= "boton-foto" fill="clear" (click)="tomarFoto()">
+      <ion-button class="boton-foto" fill="clear" (click)="tomarFoto()">
         <ion-icon slot="start" name="camera"></ion-icon>
         Agregar foto
       </ion-button>
     </ion-item>
-    <ion-note *ngIf="!foto" color="danger">
+    <ion-note *ngIf="formInvalid && !foto" color="danger">
       La foto es obligatoria.
     </ion-note>
 
     <ion-item *ngIf="foto">
-      <ion-img [src]="'data:image/jpeg;base64,'+foto"></ion-img>
+      <ion-img [src]="'data:image/jpeg;base64,' + foto"></ion-img>
     </ion-item>
 
     <ion-item>

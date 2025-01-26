@@ -20,7 +20,7 @@
       <ion-button fill="clear" (click)="eliminarAviso(aviso.id)">
         <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
       </ion-button>
-      <ion-img [src]="aviso.foto" *ngIf="aviso.foto" alt="Foto del aviso"></ion-img>
+      <ion-img slot= "start" [src]="'data:image/jpeg;base64,' + aviso.foto" *ngIf="aviso.foto" alt="Foto del aviso"></ion-img>
     </ion-item>
   </ion-list>
   <!--Ventana modal para confirmar eliminación de aviso-->

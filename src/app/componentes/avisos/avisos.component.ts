@@ -14,7 +14,7 @@ import { IonList, IonLabel, IonItem, IonButton, IonTitle, IonBackButton, IonTool
   templateUrl: './avisos.component.html',
   styleUrls: ['./avisos.component.scss'],
   standalone: true,
-  imports: [RouterModule, IonFabButton, IonFab, IonFooter, IonModal, IonImg, IonIcon, IonHeader, IonContent, IonButtons, IonToolbar, IonBackButton, 
+  imports: [RouterModule, IonFabButton, IonFab, IonFooter, IonModal, IonImg, IonIcon, IonHeader, IonContent, IonButtons, IonToolbar, IonBackButton,
     IonTitle, CommonModule, IonList, IonLabel, IonItem, IonButton]
 })
 export class AvisosComponent implements OnInit {
@@ -34,6 +34,10 @@ export class AvisosComponent implements OnInit {
   async ngOnInit() {
     await this.AvisoServicioService.iniciarPlugin()
     await this.cargarAvisos();
+  }
+
+  ionViewWillEnter() {
+    this.cargarAvisos();
   }
 
   async cargarAvisos() {

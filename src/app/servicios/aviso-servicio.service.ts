@@ -88,13 +88,11 @@ export class AvisoServicioService {
 
   async agregarAviso(titulo: string, descripcion: string, foto: string): Promise<void> {
     const fecha = new Date().toISOString();
-
-    // Insertar el aviso solo si no existe un aviso con el mismo id
+  
+    // Inserta el aviso en la tabla
     await this.db.run(
-      `INSERT INTO avisos (titulo, descripcion, foto, fecha)
-       SELECT ?, ?, ?, ?
-       WHERE NOT EXISTS (SELECT 1 FROM avisos WHERE id = ?)`,
-      [titulo, descripcion, foto, fecha, titulo]
+      `INSERT INTO avisos (titulo, descripcion, foto, fecha) VALUES (?, ?, ?, ?)`,
+      [titulo, descripcion, foto, fecha]
     );
   }
 

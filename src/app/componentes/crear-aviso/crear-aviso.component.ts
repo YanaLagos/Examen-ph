@@ -1,9 +1,12 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { Aviso } from '../../Modelo/aviso.model';
+import { AvisoServicioService } from 'src/app/servicios/aviso-servicio.service';
 import { FormsModule } from '@angular/forms'; 
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { addIcons } from 'ionicons';
 import { camera } from 'ionicons/icons';
-import { Camera, CameraResultType } from '@capacitor/camera'
+import { CamaraServicioService } from 'src/app/servicios/camara/camara.service';
 import { IonToolbar, IonTitle, IonContent, IonLabel, IonItem, IonInput, IonTextarea, IonButton, IonImg, 
   IonButtons, IonBackButton, IonNote, IonIcon, IonHeader } from "@ionic/angular/standalone";
 
@@ -12,45 +15,51 @@ import { IonToolbar, IonTitle, IonContent, IonLabel, IonItem, IonInput, IonTexta
   templateUrl: './crear-aviso.component.html',
   styleUrls: ['./crear-aviso.component.scss'],
   standalone: true, 
-  imports: [IonHeader, IonIcon, IonNote, IonBackButton, IonButtons, FormsModule, IonImg, IonButton, IonTextarea, 
+  imports: [CommonModule, IonHeader, IonIcon, IonNote, IonBackButton, IonButtons, FormsModule, IonImg, IonButton, IonTextarea, 
     IonInput, IonToolbar, IonTitle, IonContent, IonLabel, IonItem],
 })
+
 export class CrearAvisoComponent {
   titulo: string = '';
   descripcion: string = '';
   foto: string = ''; 
+  formInvalid: boolean = false;
 
-  @Output() avisoCreado = new EventEmitter();  
+  @Output() avisoCreado = new EventEmitter<Aviso>(); 
 
-  constructor() {
-    addIcons({camera});
-  }
+  constructor(
+    private avisoServicio: AvisoServicioService,
+    private camaraServicio: CamaraServicioService,
+    private router: Router
+    ) {
+    addIcons({ camera });
+    }
 
-	async tomarFoto() {
-    const image = await Camera.getPhoto({
-      quality: 90,
-      allowEditing: false,
-      resultType: CameraResultType.Base64
-    })
- 
-    this.foto = image.base64String || '';
+  async tomarFoto() {
+    this.foto = await this.camaraServicio.tomarFoto();
     console.log('Imagen seleccionada: ', this.foto);
   }
-
-  onSubmit() {
-    if (this.titulo && this.descripcion) {
-      const nuevoAviso: Aviso = {
-        id: 0, // Asignación dinámica de ID
-        titulo: this.titulo,
-        descripcion: this.descripcion,
-        fecha: new Date().toISOString(), // Fecha actual
-        foto: this.foto
-      };
-
-      this.avisoCreado.emit(nuevoAviso);
-      this.titulo = '';
-      this.descripcion = '';
-      this.foto = '';
+  async onSubmit() {
+    if (this.titulo && this.descripcion && this.foto) {
+      try {
+        // Guardar el aviso en SQLite
+        await this.avisoServicio.agregarAviso(this.titulo, this.descripcion, this.foto);
+  
+        // Redirigir al listado de avisos
+        this.router.navigate(['/avisos']);
+      } catch (error) {
+        console.error('Error al agregar el aviso:', error);
+      }
+  
+      this.limpiarFormulario();
+    } else {
+      this.formInvalid = true;
     }
   }
-}
+
+  limpiarFormulario() {
+    this.titulo = '';
+    this.descripcion = '';
+    this.foto = '';
+  }
+}  
